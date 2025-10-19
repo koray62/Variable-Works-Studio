@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VariableWorks Studio - Ürün Tanıtım Sunumu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .presentation {
+            max-width: 100vw;
+            margin: 0;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 60px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            scroll-snap-align: start;
+        }
+
+        .slide-content {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            max-width: 1200px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide:nth-child(even) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide:nth-child(odd) {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .logo-header {
+            text-align: center;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .gear {
+            position: absolute;
+            border-radius: 50%;
+            animation: rotate 8s linear infinite;
+        }
+
+        .gear-1 {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #4A90E2, #357ABD);
+            top: 0;
+            left: 10px;
+            z-index: 3;
+        }
+
+        .gear-2 {
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(45deg, #E94B3C, #C73E1D);
+            top: 20px;
+            right: 0;
+            animation-direction: reverse;
+            animation-duration: 6s;
+            z-index: 2;
+        }
+
+        .gear-3 {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #50C878, #45B866);
+            bottom: 0;
+            left: 0;
+            animation-duration: 10s;
+            z-index: 1;
+        }
+
+        .gear::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .gear::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: inherit;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(1px);
+            opacity: 0.7;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .brand-name {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1;
+            margin: 0;
+        }
+
+        .variable { color: #4A90E2; }
+        .works { color: #E94B3C; }
+        .studio { color: #50C878; display: block; font-size: 28px; margin-top: 2px; }
+
+        h1 {
+            font-size: 42px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #4A90E2;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 24px;
+            color: #4A90E2;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(74, 144, 226, 0.1) 0%, rgba(74, 144, 226, 0.2) 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4A90E2;
+            margin: 20px 0;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .module-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 5px solid #4A90E2;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #4A90E2, #E94B3C, #50C878);
+        }
+
+        .level-1 { border-left-color: #4A90E2; }
+        .level-2 { border-left-color: #E94B3C; }
+        .level-3 { border-left-color: #50C878; }
+        .complex { border-left-color: #8E44AD; }
+        .analytiq { border-left-color: #F39C12; }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 25px;
+            font-size: 14px;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #50C878;
+            font-weight: bold;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-button {
+            background: #E94B3C;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            background: #C73E1D;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .flow-diagram {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            min-width: 150px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .flow-step::after {
+            display: none;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: white;
+            transform: scale(1.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Ana Başlık -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="logo-header">
+                    <div class="logo-icon">
+                        <div class="gear gear-1"></div>
+                        <div class="gear gear-2"></div>
+                        <div class="gear gear-3"></div>
+                    </div>
+                    <div class="logo-text">
+                        <div class="brand-name">
+                            <span class="variable">Variable</span><span class="works">Works</span>
+                            <span class="studio">Studio</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <h1>Ham Veriden Karara</h1>
+                <div class="highlight">
+                    <p style="font-size: 20px; margin: 0; text-align: center;">
+                        <strong>Yapay Zeka Destekli Veri Zenginleştirme ve Analitik Platform Çözümleri</strong>
+                    </p>
+                </div>
+                
+                <div class="flow-diagram">
+                    <div style="display: flex; align-items: center; justify-content: center; flex-wrap: nowrap; gap: 10px;">
+                        <div class="flow-step">Ham Veri</div>
+                        <div style="font-size: 24px; color: #4A90E2;">→</div>
+                        <div class="flow-step">Veri Zenginleştirme</div>
+                        <div style="font-size: 24px; color: #4A90E2;">→</div>
+                        <div class="flow-step">Analitik Modeller</div>
+                        <div style="font-size: 24px; color: #4A90E2;">→</div>
+                        <div class="flow-step">Karar Destek</div>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; font-size: 18px; color: #666;">
+                    Bankacılık sektörü için modüler yapay zeka ve analitik çözümleri
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Modüler Yaklaşım -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Modüler Çözüm Yaklaşımı</h1>
+                
+                <div class="highlight">
+                    <h3>Neden Modüler?</h3>
+                    <p>Her bankanın farklı ihtiyaçları vardır. VariableWorks Studio, ihtiyacınız olan modülleri seçerek maliyet-etkin çözümler sunmanızı sağlar.</p>
+                </div>
+
+                <div class="modules-grid">
+                    <div class="module-card">
+                        <h3>🎯 Veri Zenginleştirme Modülü</h3>
+                        <p>Mevcut verilerden türetilen çok seviyeli değişkenler</p>
+                        <ul class="feature-list">
+                            <li>Seviye 1-3 KKB değişkenleri</li>
+                            <li>Banka verilerinden türetilen değişkenler</li>
+                            <li>Kompleks değişken türetimi</li>
+                            <li>Alternatif veri entegrasyonu</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card">
+                        <h3>🔬 AnalytiQ Platform</h3>
+                        <p>End-to-end analitik çözüm platformu</p>
+                        <ul class="feature-list">
+                            <li>ETL süreçleri</li>
+                            <li>Model geliştirme ve model testleri</li>
+                            <li>Model deployment</li>
+                            <li>BI & Karar destek</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card">
+                        <h3>🤝 Hibrit Çözümler</h3>
+                        <p>İhtiyacınıza göre özelleştirilebilir</p>
+                        <ul class="feature-list">
+                            <li>Sadece veri zenginleştirme</li>
+                            <li>Sadece analitik platform</li>
+                            <li>Sadece model geliştirme ve danışmanlık</li>
+                            <li>Tam entegre çözüm</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Veri Zenginleştirme Modülü -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Veri Zenginleştirme Modülü</h1>
+                <h2>Çok Kaynaklı Veri Türetimi ve Analiz</h2>
+
+                <div class="modules-grid">
+                    <div class="module-card level-1">
+                        <h3>KKB Seviye 1 Değişkenler</h3>
+                        <p><strong>Temel KKB Türetimi:</strong> KKB datasından türetilen birinci seviye değişkenler</p>
+                        <ul class="feature-list">
+                            <li>Kredi geçmişi analizi</li>
+                            <li>Ödeme performansı metrikleri</li>
+                            <li>Borç yapısı değişkenleri</li>
+                            <li>Temel risk göstergeleri</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card level-2">
+                        <h3>KKB Seviye 2 Değişkenler</h3>
+                        <p><strong>Gelişmiş KKB Analizi:</strong> Scorecard analizlerinde riski tahminleme konusunda kanıtlanmış güçlü değişkenler</p>
+                        <ul class="feature-list">
+                            <li>Risk skorlama değişkenleri</li>
+                            <li>Davranışsal analiz metrikleri</li>
+                            <li>Trend analizi değişkenleri</li>
+                            <li>Segmentasyon değişkenleri</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card level-3">
+                        <h3>KKB Seviye 3 Değişkenler</h3>
+                        <p><strong>Kompleks KKB Analizi:</strong> İki veya daha çok boyutlu değişkenler ve zaman serisi analizleri</p>
+                        <ul class="feature-list">
+                            <li>Çok boyutlu risk matrisleri</li>
+                            <li>Zaman serisi değişkenleri</li>
+                            <li>Korelasyon bazlı değişkenler</li>
+                            <li>Makine öğrenmesi türevleri</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modules-grid" style="grid-template-columns: 1fr 1fr; max-width: 800px; margin: 30px auto; justify-content: center;">
+                    <div class="module-card" style="border-left-color: #3498DB;">
+                        <h3>Banka Verileri Değişkenleri</h3>
+                        <p><strong>İç Veri Analizi:</strong> Bankanın kendi verilerinden türetilen değişkenler</p>
+                        <ul class="feature-list">
+                            <li>Hesap hareketleri analizi</li>
+                            <li>Yatırım ve varlık bilgileri</li>
+                            <li>Müşteri segmentasyon verileri</li>
+                            <li>Demografik veriler</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card complex">
+                        <h3>Kompleks Değişkenler</h3>
+                        <p><strong>Entegre Analiz:</strong> KKB + Banka + Alternatif veri kaynaklarının birleşimi</p>
+                        <ul class="feature-list">
+                            <li>Hibrit risk değişkenleri</li>
+                            <li>360° müşteri profili</li>
+                            <li>Alternatif veri entegrasyonu</li>
+                            <li>AI destekli değişken üretimi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: AnalytiQ Platform -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1>AnalytiQ Analitik Platformu</h1>
+                <h2>Tek Platformda Tüm Analitik İhtiyaçlar</h2>
+
+                <div class="highlight">
+                    <p style="font-size: 16px; margin: 0;">AnalytiQ, analitik sürecin her aşamasını tek bir platformda birleştiren kapsamlı bir çözümdür.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin: 30px 0;">
+                    <div class="module-card analytiq">
+                        <h3>📊 Analitik Data Mart</h3>
+                        <p style="font-size: 14px;">Veri ambarı ve analitik veri yapıları oluşturma</p>
+                        <ul class="feature-list" style="font-size: 13px;">
+                            <li>Yüksek performanslı veri depolama</li>
+                            <li>IT bağımsız veritabanı ve değişken ekleme</li>
+                            <li>Db2, Oracle, SQL, text, Mongo, vb tüm veritabanlarından veri aktarabilme</li>
+                            <li>Tüm veri temizleme, impütasyon, birleştirme, ayıklama vb onlarca veri hazırlama fonksiyonunu tek tuşla yapabilme</li>
+                            <li>Gerçek zamanlı veri akışını işleyebilme</li>
+                            <li>Yüksek hız ve performans</li>
+                            <li>Çok büyük verilerle çalışabilme</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card analytiq">
+                        <h3>🔧 ETL Süreçleri</h3>
+                        <p style="font-size: 14px;">Veri çıkarma, dönüştürme ve yükleme işlemleri</p>
+                        <ul class="feature-list" style="font-size: 13px;">
+                            <li>Otomatik veri pipeline'ları</li>
+                            <li>Veri kalitesi kontrolleri</li>
+                            <li>Hata yönetimi ve izleme</li>
+                            <li>AI ile değişken türetme</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card analytiq">
+                        <h3>🤖 Smart Variable Selection</h3>
+                        <p style="font-size: 14px;">AI destekli akıllı değişken seçimi</p>
+                        <ul class="feature-list" style="font-size: 13px;">
+                            <li>On binlerce değişken içinden otomatik seçim</li>
+                            <li>Tahmin gücü optimizasyonu</li>
+                            <li>Yüksek boyutlu veri yönetimi</li>
+                            <li>Hızlı model eğitimi</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card analytiq">
+                        <h3>🤖 Model Geliştirme</h3>
+                        <p style="font-size: 14px;">Makine öğrenmesi ve istatistiksel model oluşturma</p>
+                        <ul class="feature-list" style="font-size: 13px;">
+                            <li>AutoML özellikleri</li>
+                            <li>Model validasyon araçları</li>
+                            <li>Model testleri</li>
+                            <li>A/B testing altyapısı</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card analytiq">
+                        <h3>🚀 Model Deployment</h3>
+                        <p style="font-size: 14px;">Geliştirilen modellerin üretime alma süreci</p>
+                        <ul class="feature-list" style="font-size: 13px;">
+                            <li>Containerized deployment</li>
+                            <li>API gateway entegrasyonu</li>
+                            <li>Performans izleme</li>
+                        </ul>
+                    </div>
+
+                    <div class="module-card analytiq">
+                        <h3>📈 BI & Karar Destek</h3>
+                        <p style="font-size: 14px;">Görselleştirme ve karar destek sistemleri</p>
+                        <ul class="feature-list" style="font-size: 13px;">
+                            <li>İnteraktif dashboard'lar</li>
+                            <li>Otomatik raporlama</li>
+                            <li>Real-time alerting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 40px;">Bankaya Özel Kullanım Senaryoları</h2>
+                
+                <div class="highlight" style="background: linear-gradient(120deg, rgba(243, 156, 18, 0.1) 0%, rgba(243, 156, 18, 0.2) 100%); border-left-color: #F39C12;">
+                    <p style="font-size: 15px; margin-bottom: 15px;">Sektöre özel analitik çözümler ve kullanım alanları ile bankacılık süreçlerinizi optimize edin.</p>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 3px solid #F39C12;">
+                            <h4 style="color: #F39C12; margin-bottom: 8px; font-size: 15px;">👤 Müşteri Analitiği</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px;">
+                                <li style="padding: 5px 0;">• Müşteri temerrüt tahmini</li>
+                                <li style="padding: 5px 0;">• Müşteri yaşam boyu değer analizi</li>
+                                <li style="padding: 5px 0;">• Çapraz satış/ek satış hedefleme</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 3px solid #E94B3C;">
+                            <h4 style="color: #E94B3C; margin-bottom: 8px; font-size: 15px;">💳 Risk Yönetimi</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px;">
+                                <li style="padding: 5px 0;">• Kredi limiti optimizasyonu</li>
+                                <li style="padding: 5px 0;">• Risk için erken uyarı sistemleri</li>
+                                <li style="padding: 5px 0;">• İşlem dolandırıcılık tespiti</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 3px solid #4A90E2;">
+                            <h4 style="color: #4A90E2; margin-bottom: 8px; font-size: 15px;">📊 Operasyonel Verimlilik</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px;">
+                                <li style="padding: 5px 0;">• Otomatik karar sistemleri</li>
+                                <li style="padding: 5px 0;">• Süreç optimizasyonu</li>
+                                <li style="padding: 5px 0;">• Kaynak tahsisi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Platform Faydaları -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Platform ile Sağlanan Faydalar</h1>
+                
+                <div style="display: grid; gap: 25px; margin-top: 20px;">
+                    
+                    <!-- Maliyet Avantajı -->
+                    <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%); border-left: 5px solid #50C878; padding: 25px; border-radius: 15px;">
+                        <h2 style="color: #50C878; font-size: 26px; margin-bottom: 20px; border: none;">💰 Maliyet Avantajı</h2>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <h4 style="color: #2c3e50; font-size: 16px; margin-bottom: 10px;">🎯 Tek Entegre Çözüm</h4>
+                                <p style="font-size: 14px; margin: 0;">Birden fazla yazılım satın alma, implementasyon ve entegrasyon maliyetlerinden kurtulun. Platform tek başına tüm ihtiyaçları karşılar: Veri çekme, AI tabanlı değişken üretme, ETL, veri temizleme, DWH, modelleme, deployment, BI ve karar destek.</p>
+                            </div>
+                            <div>
+                                <h4 style="color: #2c3e50; font-size: 16px; margin-bottom: 10px;">🖥️ Düşük Donanım Maliyeti</h4>
+                                <p style="font-size: 14px; margin: 0;">Patentli uygulama mimarisi ve veri işleme teknolojisi sayesinde donanım maliyetlerinde önemli tasarruf.</p>
+                            </div>
+                            <div>
+                                <h4 style="color: #2c3e50; font-size: 16px; margin-bottom: 10px;">👥 İnsan Kaynağı Optimizasyonu</h4>
+                                <p style="font-size: 14px; margin: 0;">Platform içindeki know-how ve AutoML yetenekleri ile pahalı uzman kadroya olan ihtiyacı minimize edin.</p>
+                            </div>
+                            <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #50C878;">
+                                <h4 style="color: #50C878; font-size: 18px; margin-bottom: 10px;">📊 %50 Maliyet Tasarrufu</h4>
+                                <p style="font-size: 14px; margin: 0;"><strong>Geleneksel çözüm:</strong> 650K - 2M USD/yıl<br><strong>VariableWorks Studio:</strong> Yaklaşık %50 daha düşük maliyet</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daha Güçlü Modeller -->
+                    <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%); border-left: 5px solid #4A90E2; padding: 25px; border-radius: 15px;">
+                        <h2 style="color: #4A90E2; font-size: 26px; margin-bottom: 20px; border: none;">🚀 Daha Güçlü Modeller</h2>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <h4 style="color: #2c3e50; font-size: 16px; margin-bottom: 10px;">🧠 İleri Seviye Yetenekler</h4>
+                                <p style="font-size: 14px; margin: 0;">Güçlü trend değişkenleri, çok boyutlu değişkenler, DWH altyapısı, yapay zeka algoritmaları ve akıllı değişken seçimi ile en gelişmiş kurumlarda dahi olmayan yeteneklere sahip olun.</p>
+                            </div>
+                            <div>
+                                <h4 style="color: #2c3e50; font-size: 16px; margin-bottom: 10px;">⚡ Hızlı Geliştirme</h4>
+                                <p style="font-size: 14px; margin: 0;">Çok daha ileri seviyede modelleri, çok daha kısa sürelerde ve daha düşük yetkinlik profili ile oluşturun.</p>
+                            </div>
+                            <div style="grid-column: 1 / -1; background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #4A90E2;">
+                                <h4 style="color: #4A90E2; font-size: 16px; margin-bottom: 10px;">💎 Yüksek ROI</h4>
+                                <p style="font-size: 14px; margin: 0;">Daha yüksek tahmin seviyelerine ulaşan modeller doğru karar vermeyi artırır ve kurum karlılığını maksimize eder. Sağlanan marjinal fayda dahi ürüne yapılan yatırımın geri dönüşünü sağlar.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <!-- Kurumsal Hafıza -->
+                        <div style="background: linear-gradient(135deg, #f8f9fa 0%, #fff3e0 100%); border-left: 5px solid #F39C12; padding: 20px; border-radius: 15px;">
+                            <h2 style="color: #F39C12; font-size: 22px; margin-bottom: 15px; border: none;">🏢 Kurumsal Hafıza</h2>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee;">✓ Model dokümantasyonları sistemde</li>
+                                <li style="padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee;">✓ Know-how kurumda kalır</li>
+                                <li style="padding: 8px 0; font-size: 14px;">✓ İnsan bağımlılığı minimize</li>
+                            </ul>
+                        </div>
+
+                        <!-- Teknoloji Avantajı -->
+                        <div style="background: linear-gradient(135deg, #f8f9fa 0%, #f3e5f5 100%); border-left: 5px solid #8E44AD; padding: 20px; border-radius: 15px;">
+                            <h2 style="color: #8E44AD; font-size: 22px; margin-bottom: 15px; border: none;">⚙️ Teknoloji Avantajı</h2>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee;">✓ Patentli veri işleme teknolojisi</li>
+                                <li style="padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee;">✓ End-to-end entegre çözüm</li>
+                                <li style="padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee;">✓ Özel AI algoritmaları</li>
+                                <li style="padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee;">✓ Sürekli yenilenen teknoloji</li>
+                                <li style="padding: 8px 0; font-size: 14px;">✓ Bulut ve on-prem seçeneği</li>
+                            </ul>
+                        </div>
+
+                        <!-- Yerli Milli + Güvenlik -->
+                        <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffebee 100%); border-left: 5px solid #E94B3C; padding: 20px; border-radius: 15px;">
+                            <h2 style="color: #E94B3C; font-size: 22px; margin-bottom: 15px; border: none;">🇹🇷 Yerli & Güvenli</h2>
+                            <h4 style="color: #2c3e50; font-size: 15px; margin: 15px 0 10px 0;">Yerli Milli Çözüm:</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0 0 15px 0;">
+                                <li style="padding: 5px 0; font-size: 13px;">✓ KKB ile 3 yıl Ar-Ge</li>
+                                <li style="padding: 5px 0; font-size: 13px;">✓ Tamamen yerli kaynak</li>
+                                <li style="padding: 5px 0; font-size: 13px;">✓ Sıfır third party bağımlılık</li>
+                            </ul>
+                            <h4 style="color: #2c3e50; font-size: 15px; margin: 15px 0 10px 0;">Güvenlik:</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="padding: 5px 0; font-size: 13px;">✓ Yüksek güvenlik standartları</li>
+                                <li style="padding: 5px 0; font-size: 13px;">✓ KKB onaylı</li>
+                                <li style="padding: 5px 0; font-size: 13px;">✓ Penetrasyon testleri geçildi</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
